@@ -31,6 +31,9 @@
 //----------------------------------------------------------------------------------
 static int framesCounter = 0;
 static int finishScreen = 0;
+static Model mBox;
+static Vector3 position;
+static Camera3D camera = { { 0.0f, 10.0f, 10.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f, 0 };
 
 //----------------------------------------------------------------------------------
 // Gameplay Screen Functions Definition
@@ -42,6 +45,9 @@ void InitGameplayScreen(void)
     // TODO: Initialize GAMEPLAY screen variables here!
     framesCounter = 0;
     finishScreen = 0;
+
+    mBox = LoadModel("resources/helloBlockBench.gltf");
+    position = (Vector3) { 0.0f, 0.0f, 0.0f };
 }
 
 // Gameplay Screen Update logic
@@ -63,6 +69,10 @@ void DrawGameplayScreen(void)
     // TODO: Draw GAMEPLAY screen here!
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), PURPLE);
     Vector2 pos = { 20, 10 };
+    BeginMode3D(camera);
+        DrawModel(mBox, position, 10.0f, WHITE);
+        DrawGrid(10, 1.0f);
+    EndMode3D();
     DrawTextEx(font, "GAMEPLAY SCREEN", pos, font.baseSize*3.0f, 4, MAROON);
     DrawText("PRESS ENTER or TAP to JUMP to ENDING SCREEN", 130, 220, 20, MAROON);
 }
@@ -71,6 +81,7 @@ void DrawGameplayScreen(void)
 void UnloadGameplayScreen(void)
 {
     // TODO: Unload GAMEPLAY screen variables here!
+    UnloadModel(mBox);
 }
 
 // Gameplay Screen should finish?
